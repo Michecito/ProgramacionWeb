@@ -1,0 +1,47 @@
+->Crear proyecto
+composer create-project --prefer-dist laravel/lumen nombre-proyecto
+
+->Crear migracion para tabla, si el nombre tiene mas de una palabra se separa con guines bajos, todo en minusculas
+php artisan make:migration create_nombre_tabla_table
+
+->Ejecutar migraciones para crear tablas
+php artisan migrate
+
+->Eliminar tablas y volver a crear
+php artisan migrate:fresh
+
+->Crear sembrador para llenar tabla con datos ficticios
+php artisan make:seeder TablaTableSeeder
+
+->Ejecutar sembradores para llenar tablas
+php artisan db:seed
+
+->para usar facades y eloquent (usar libreria de modelos y bases de datos como objetos mapeados)
+/boostrap/app.php
+Descomentar
+$app->withFacades();
+$app->withEloquent();
+
+->Agregar comandos extra php artisan
+composer require flipbox/lumen-generator -W
+->Agregar al archivo /boostrap/app.php antes del return $app; la siguiente linea
+$app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
+
+->Crear modelo, el nombre debe ser el mismo de la tabla en singular
+php artisan make:model Nombremodelo
+
+->Crear controlador
+php artisan make:controller NombreController
+
+->Para permitir cors agregar al archivo /boostrap/app.php despues de la primer linea
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, HEAD, OPTIONS');
+header('Access-Control-Allow-Credentials: true');
+header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With');
+->y agregar la ruta en /routes/web.php
+$router->options('{all:.*}', function () use ($router) {
+    return response()->json();
+});
+
+->Para ejecutar el proyecto en un servidor php (sin apache)
+php artisan serve
